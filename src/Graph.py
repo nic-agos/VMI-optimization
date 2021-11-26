@@ -71,7 +71,7 @@ if __name__ == '__main__':
             nid = n.get_id()
             wid = w.get_id()
 
-            print ("( %s , %s, %s)"  % ( nid, wid, n.get_edge_id(w).get_type()))
+            print ("( %s , %s, %s)"  % ( nid, wid, n.get_edge_id(w).get_id()))
 
 
 

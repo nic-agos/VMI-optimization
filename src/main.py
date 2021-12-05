@@ -1,5 +1,6 @@
 from Graph import *
 from json import dumps
+from Data import *
 import sys
 
 days = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"]
@@ -7,11 +8,11 @@ edgeTypes = ["supply_edge", "dispatch_edge", "holding_edge", "cycle_edge", "shor
 nodeTypes = ["dummy_supply_node", "collection_node", "supplier_node", "retailer_node"]
 
 def printGraph(graph):
-    for edge in graph:
-        for w in edge.get_neighbors():
-            startNodeId = edge.get_id()
-            endNodeId = w.get_id()
-            edgeId = edge.get_edge_to_neighbor(w).get_id()
+    for node in graph:
+        for neighbor in node.get_neighbors():
+            startNodeId = node.get_id()
+            endNodeId = neighbor.get_id()
+            edgeId = node.get_edge_to_neighbor(neighbor).get_id()
 
             print("(%s , %s, %s)"  % (startNodeId, endNodeId, edgeId))
 
@@ -21,10 +22,12 @@ def visualize(graph):
     "nodes": [],
     "edges": []
     }
-    for edge in graph:
-        id = edge.getId()
-        g["nodes"].append({"id": id, "label": id})
+    for node in graph:
+        id = node.get_id()
+        g["nodes"].append({"id": id, "label": id, "key" : id})
         json_graph = dumps(g)
+
+    #manca di aggiungere gli archi
     
 
 def initialize(retailerNumber):
@@ -45,6 +48,7 @@ def initialize(retailerNumber):
     return g
     
 def add_data(graph):
+    #manca di inserire i dati nei nodi/archi
     pass
 
 if __name__ == '__main__':

@@ -144,10 +144,11 @@ class SupplierNode:
 
 class RetailerNode:
 
-    def __init__(self, id, day, warehouse_usage, demand):
-        self.id = "RetailerNode" + "_" + str(id) + "_" + str(day)
+    def __init__(self, retailerNumber, day, warehouse_usage, demand):
+        self.id = "RetailerNode" + "_" + str(retailerNumber) + "_" + str(day)
         self.adjacent = {}
         self.type = "retailer_node"
+        self.retailerNumber = retailerNumber
         self.day = day
         self.warehouse_usage = warehouse_usage
         self.demand = demand
@@ -203,6 +204,14 @@ class RetailerNode:
     #per impostare il tipo dell'arco
     def set_type(self, type):
         self.type = type
+
+    #per ottenere il retailer number
+    def get_retailer_number(self):
+        return self.retailerNumber
+
+    #per impostare il retailer number
+    def set_retailer_number(self, value):
+        self.retailerNumber = value
  
     
 

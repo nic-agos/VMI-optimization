@@ -51,12 +51,13 @@ class SupplyEdge:
 
 class DispatchEdge:
 
-    def __init__(self, id, cost, upper_bound, lower_bound):
+    def __init__(self, id, cost, upper_bound, lower_bound, quantity_trasported):
         self.id = "DispatchEdge" + "_" + str(id)
         self.type = "dispatch_edge"
         self.cost = cost
         self.upper_bound = upper_bound
         self.lower_bound = lower_bound
+        self.quantity_trasported = quantity_trasported
         
     #per ottenere l'identificativo del'arco
     def get_id(self):
@@ -98,14 +99,25 @@ class DispatchEdge:
     def get_lower_bound(self):
         return self.lower_bound
 
+    #per ottenere la quantità di merce trasportata sull'arco
+    def get_quantity_trasported(self):
+        return self.quantity_trasported
+    
+    #per impostare la quantità di merce trasportata sull'arco
+    def set_quantity_trasported(self, value):
+        self.quantity_trasported = value
+
+    
+
 class HoldingEdge:
 
-    def __init__(self, id, cost, upper_bound, lower_bound):
+    def __init__(self, id, cost, upper_bound, lower_bound, quantity_holded):
         self.id = "HoldingEdge" + "_" + str(id)
         self.type = "holding_edge"
         self.cost = cost
         self.upper_bound = upper_bound
         self.lower_bound = lower_bound
+        self.quantity_holded = quantity_holded
     
     #per ottenere l'identificativo del'arco
     def get_id(self):
@@ -146,6 +158,14 @@ class HoldingEdge:
     #per ottenere il lower bound dell'arco
     def get_lower_bound(self):
         return self.lower_bound
+    
+    #per ottenere la quantità di merce rimanente a fine giornata
+    def get_quantity_holded(self):
+        return self.quantity_holded
+
+    #per impostare la quantità di merce rimanente a fine giornata
+    def set_quantity_holded(self, value):
+        self.get_quantity_holded = value
 
 class CycleEdge:
 

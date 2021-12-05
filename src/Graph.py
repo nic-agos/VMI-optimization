@@ -1,5 +1,7 @@
 from Nodes import *
 from Edges import *
+from Main import *
+
 
 class Graph:
 
@@ -10,20 +12,36 @@ class Graph:
     def __iter__(self):
         return iter(self.nodes_dict.values())
 
-    def get_num_vertices(self):
+    def get_num_nodes(self):
         return self.num_nodes
 
-    def add_dummy_supply_node(self, nodeId, max_warehouse_size):
+    def add_dummy_supply_node(self, max_warehouse_size):
         self.num_nodes = self.num_nodes + 1
-        new_vertex = DummySupplyNode(nodeId, max_warehouse_size, "dummy_supply_node")
-        self.nodes_dict[nodeId] = new_vertex
-        return new_vertex
+        newNode = DummySupplyNode(max_warehouse_size)
+        id = newNode.get_id()
+        self.nodes_dict[id] = newNode
+        return newNode
     
-    def add_collection_node(self, nodeId):
+    def add_collection_node(self, total_demand):
         self.num_nodes = self.num_nodes + 1
-        new_vertex = CollectionNode(nodeId, "collection_node")
-        self.nodes_dict[nodeId] = new_vertex
-        return new_vertex
+        newNode = CollectionNode(total_demand)
+        id = newNode.get_id()
+        self.nodes_dict[id] = newNode
+        return newNode
+    
+    def add_supplier_node(self, day, warehouse_usage):
+        self.num_nodes = self.num_nodes + 1
+        newNode = SupplierNode(day, warehouse_usage)
+        id = newNode.get_id()
+        self.nodes_dict[id] = newNode
+        return newNode
+
+    def add_retailer_node(self, id, day, warehouse_usage, demand):
+        self.num_nodes = self.num_nodes + 1
+        newNode = RetailerNode(id, day, warehouse_usage, demand)
+        id = newNode.get_id()
+        self.nodes_dict[id] = newNode
+        return newNode
 
     def get_nodes_keys(self):
         return self.nodes_dict.keys()
@@ -36,42 +54,51 @@ class Graph:
 
     # metodo per aggiungere un arco orientato già creato tra due nodi già creati
     def add_edge(self, startNode, endNode, edge):
-        self.nodes_dict[startNode].add_neighbor(self.nodes_dict[endNode], edge)
-        self.nodes_dict[endNode].add_neighbor(self.nodes_dict[startNode], edge)
+        if startNode in self.nodes_dict and endNode in self.nodes_dict:
+            self.nodes_dict[startNode].add_neighbor(self.nodes_dict[endNode], edge)
+        else:
+            return 0
 
 
 if __name__ == '__main__':
     g = Graph()
 
     print("\ndummy supply node data test:")
-    g.add_dummy_supply_node("dummy_supply_node_example", 20)
-    print(g.get_node("dummy_supply_node_example"))
-    v1 = g.get_node("dummy_supply_node_example")
+    g.add_dummy_supply_node(100)
+    print("nodes keys: ", g.get_nodes_keys())
+    v1 = g.get_node("DummySupplyNode")
+    print(v1)
     print(v1.get_id())
     print(v1.get_neighbors())
     print(v1.get_max_warehouse_size())
-    print(v1.get_type())
+    print("boolean:", v1.get_type() == "dummy_supply_node")
 
     print("\ncollection node data test:")
-    g.add_collection_node("collection_node_example")
-    print(g.get_node("collection_node_example"))
-    v2 = g.get_node("collection_node_example")
+    g.add_collection_node(100)
+    v2 = g.get_node("CollectionNode")
+    print(v2)
     print(v2.get_id())
     print(v2.get_neighbors())
     print(v2.get_type())
 
-    print(g.get_nodes_keys())
-    print(g.get_num_vertices())
+    print("\nsupplier node data test:")
+    g.add_supplier_node("MON", 50)
+    v3 = g.get_node("SupplierNode_MON")
+    print(v3)
+    print(v3.get_id())
+    print(v3.get_neighbors())
+    print(v3.get_type())
+
+    print("Nodes id: " , g.get_nodes_keys())
+    print("Number of nodes: ", g.get_num_nodes())
 
     print("\ninsert edge test")
-    e = SupplyEdge("supply_edge_example", "supply_edge")
-    g.add_edge(v1.get_id(), v2.get_id(), e)
-    for n in g:
-        for w in n.get_neighbors():
-            nid = n.get_id()
-            wid = w.get_id()
+    suppEdge = SupplyEdge(10, 150, 0)
 
-            print ("( %s , %s, %s)"  % ( nid, wid, n.get_edge_id(w).get_type()))
+    if g.add_edge(v1.get_id(), v2.get_id(), suppEdge) != 0:
+        print("stampo il grafo: ")
+        printGraph(g)
+    
 
 
 

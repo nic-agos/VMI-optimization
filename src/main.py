@@ -39,7 +39,20 @@ def printRetailerData(graph):
             nodeId = node.get_id()
             nodeCapacity = node.get_warehouse_usage()
             nodeDemand = node.get_demand()
-            print("(%s, %s, %s)"  % (nodeId, nodeCapacity, nodeDemand))
+            print("(id: %s, capacity: %s, demand: %s)"  % (nodeId, nodeCapacity, nodeDemand))
+
+def printSupplierData(graph):
+
+    if graph == None:
+        print("Non posso stampare i dati del supplier, grafo non inizializzato")
+        return
+    
+    for node in graph:
+        if node.get_type() == "supplier_node":
+            nodeId = node.get_id()
+            nodeUsage = node.get_warehouse_usage()
+            print("(id: %s, warehouse_usage: %s)"  % (nodeId, nodeUsage))
+
 
 def visualize(graph):
 
@@ -145,5 +158,6 @@ if __name__ == '__main__':
     #print(graph.get_nodes_keys())
     #print(graph.get_num_nodes())
     #visualize(graph)
-    printGraph(graph)
+    #printGraph(graph)
     #printRetailerData(graph)
+    printSupplierData(graph)

@@ -52,7 +52,7 @@ class SupplyEdge:
 class DispatchEdge:
 
     def __init__(self, id, cost, upper_bound, lower_bound, quantity_trasported):
-        self.id = "DispatchEdge" + "_" + str(id)
+        self.id = id
         self.type = "dispatch_edge"
         self.cost = cost
         self.upper_bound = upper_bound
@@ -107,12 +107,10 @@ class DispatchEdge:
     def set_quantity_trasported(self, value):
         self.quantity_trasported = value
 
-    
-
 class HoldingEdge:
 
     def __init__(self, id, cost, upper_bound, lower_bound, quantity_holded):
-        self.id = "HoldingEdge" + "_" + str(id)
+        self.id = id
         self.type = "holding_edge"
         self.cost = cost
         self.upper_bound = upper_bound
@@ -170,7 +168,7 @@ class HoldingEdge:
 class CycleEdge:
 
     def __init__(self, id, cost, upper_bound, lower_bound):
-        self.id = "CycleEdge" + "_" + str(id)
+        self.id = id
         self.type = "cycle_edge"
         self.cost = cost
         self.upper_bound = upper_bound
@@ -219,7 +217,7 @@ class CycleEdge:
 class ShortageEdge:
 
     def __init__(self, id, cost, upper_bound, lower_bound):
-        self.id = "ShortageEdge" + "_" + str(id)
+        self.id = id
         self.type = "shortage_edge"
         self.cost = cost
         self.upper_bound = upper_bound
@@ -268,7 +266,7 @@ class ShortageEdge:
 class RetailerCollectionEdge:
 
     def __init__(self, id, cost, upper_bound, lower_bound):
-        self.id = "RetailerCollectionEdge" + "_" + str(id)
+        self.id = id
         self.type = "retailer_collection_edge"
         self.cost = cost
         self.upper_bound = upper_bound
@@ -362,7 +360,6 @@ class SupplierCollectionEdge:
     #per ottenere il lower bound dell'arco
     def get_lower_bound(self):
         return self.lower_bound
-
 
 class RetrievalEdge:
 

@@ -1,6 +1,5 @@
 from Nodes import *
 from Edges import *
-from Main import *
 
 
 class Graph:
@@ -58,46 +57,6 @@ class Graph:
             self.nodes_dict[startNode].add_neighbor(self.nodes_dict[endNode], edge)
         else:
             return 0
-
-
-if __name__ == '__main__':
-    g = Graph()
-
-    print("\ndummy supply node data test:")
-    g.add_dummy_supply_node(100)
-    print("nodes keys: ", g.get_nodes_keys())
-    v1 = g.get_node("DummySupplyNode")
-    print(v1)
-    print(v1.get_id())
-    print(v1.get_neighbors())
-    print(v1.get_max_warehouse_size())
-    print("boolean:", v1.get_type() == "dummy_supply_node")
-
-    print("\ncollection node data test:")
-    g.add_collection_node(100)
-    v2 = g.get_node("CollectionNode")
-    print(v2)
-    print(v2.get_id())
-    print(v2.get_neighbors())
-    print(v2.get_type())
-
-    print("\nsupplier node data test:")
-    g.add_supplier_node("MON", 50)
-    v3 = g.get_node("SupplierNode_MON")
-    print(v3)
-    print(v3.get_id())
-    print(v3.get_neighbors())
-    print(v3.get_type())
-
-    print("Nodes id: " , g.get_nodes_keys())
-    print("Number of nodes: ", g.get_num_nodes())
-
-    print("\ninsert edge test")
-    suppEdge = SupplyEdge(10, 150, 0)
-
-    if g.add_edge(v1.get_id(), v2.get_id(), suppEdge) != 0:
-        print("stampo il grafo: ")
-        printGraph(g)
     
 
 

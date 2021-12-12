@@ -58,6 +58,22 @@ class Graph:
         else:
             return 0
     
+    def get_edge(self, startNode, endNode):
+        sNode = self.get_node(startNode)
+        eNode = self.get_node(endNode)
+        if startNode in self.nodes_dict and endNode in self.nodes_dict:
+            for neighbor in sNode.get_neighbors():
+                if endNode == neighbor.get_id():
+                    edge = sNode.get_edge_to_neighbor(eNode)
+                    return edge
+            
+            print("I due nodi inseriti non sono collegati da un'arco")
+            return None
+        else:
+            print("Uno o entrambi i nodi inseriti per la ricerca non fanno parte del grafo")
+
+
+
 
 
 

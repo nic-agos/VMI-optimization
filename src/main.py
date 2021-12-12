@@ -9,6 +9,7 @@ days = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"]
 edgeTypes = ["supply_edge", "dispatch_edge", "holding_edge", "cycle_edge", "shortage_edge", "retailer_collection_edge", "supplier_collection_edge", "retrieval_edge"]
 nodeTypes = ["dummy_supply_node", "collection_node", "supplier_node", "retailer_node"]
 
+#metodo per stampare le informazioni
 def printGraph(graph):
     
     if graph == None:
@@ -74,32 +75,48 @@ def visualize(graph):
             g["edges"].append({"from": startNodeId, "to": endNodeId})
             json_graph = dumps(g)
 
+    #impostare il breakpoint alla riga di seguito ed eseguire in modalità debug per  
+    #visualizzare la struttura del grafo con Debug Visualizer
     print("Insert here a breakpoint to visualize all the graph")        
 
+#metodo per inizializzare il grafo, richiede in inputi il numero di nodi retailer
 def initialize(retailerNumber):
     
     if retailerNumber > 50 or retailerNumber < 0:
         print("Inserire un numero di nodi retailer compreso tra 1 e 50")
         return None
 
+    #imposto la disponibilità totale del supplier
+    totalAvailability = 447
+    
     g = Graph()
-    g.add_dummy_supply_node(sys.maxsize)
-    g.add_collection_node(0)
+    g.add_dummy_supply_node(totalAvailability)
+    g.add_collection_node(0)  #da calcolare?
 
 
-    #aggiungo tutti i nodi supplier, con quali dati?
-    for day in days:
-        g.add_supplier_node(day, 0)
+    #aggiungo tutti i nodi supplier
+    for i in range (1,8):
+            day = days[i-1]
+            if day == "MON":
+                g.add_supplier_node(day, totalAvailability)
+            else:
+                sum = 0
+                for j in range(1, retailerNumber+1):
+                    for k in range(1, i):
+                        sum = sum + demand_matrix[k-1][j-1]
+                usage = totalAvailability - sum
+                g.add_supplier_node(day, usage)
 
+                
+    #aggiungo tutti i nodi retailer
     for i in range(1, retailerNumber + 1):
         for j in range (1, 8):
             day = days[j-1]
             if day == "MON":
-                g.add_retailer_node(i, day, capacity_list[i-1], demand_matrix[j-1][i-1])
+                g.add_retailer_node(i, day, 0, demand_matrix[j-1][i-1])
             else:
                 g.add_retailer_node(i, day, 0, demand_matrix[j-1][i-1])
 
-    #quali dati vanno inseriti negli archi del supplier?
     #aggiungo gli archi tra i nodi del supplier
     for i in range (1, 7):
         startNodeId = "SupplierNode_" + days[i-1]
@@ -117,7 +134,6 @@ def initialize(retailerNumber):
             hEdge = HoldingEdge(edgeId, 0, 150, 0, 0)
             g.add_edge(startNodeId, endNodeId, hEdge)
 
-    #con quali dati vanno inseriti?
     #aggiungo gli archi giornalieri tra il supplier e tutti i retailer 
     for i in range(1, 8):
         for j in range(1, retailerNumber + 1):
@@ -154,10 +170,31 @@ def initialize(retailerNumber):
 
 
 if __name__ == '__main__':
-    graph = initialize(1)
-    #print(graph.get_nodes_keys())
-    #print(graph.get_num_nodes())
-    #visualize(graph)
+
+    #inizializzo il grafo
+    graph = initialize(2)
+    #printSupplierData(graph)
+
+    #stampo il grafo creato
     #printGraph(graph)
+
+    #invoco la funzione per la visualizzazione grafica del grafo con Debug Visualizer
+    #visualize(graph)
+
+    #stampo i dati dei nodi retailer
     #printRetailerData(graph)
+
+    #stampo i dati di tutti i nodi supplier
     printSupplierData(graph)
+
+    #provo a cercare un arco specifico
+    '''edge = graph.get_edge("RetailerNode_1_MON", "RetailerNode_1_TUE")
+    if edge != None:
+        print(edge.get_id())
+        print(edge.get_type())
+        print(edge.get_quantity_holded())
+    else:
+        print("Arco non trovato")
+    '''
+
+

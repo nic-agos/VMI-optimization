@@ -18,6 +18,7 @@ def printGraph(graph):
 
     numEdges = 0
     
+    print("I dati del grafo sono: ")
     for node in graph:
         for neighbor in node.get_neighbors():
             startNodeId = node.get_id()
@@ -29,12 +30,13 @@ def printGraph(graph):
     
     print("Number of edges: ", numEdges)
 
-def printRetailerData(graph):
+def printRetailersData(graph):
     
     if graph == None:
         print("Non posso stampare i dati dei retailer, grafo non inizializzato")
         return
     
+    print("I dati di tutti i retailer sono: ")
     for node in graph:
         if node.get_type() == "retailer_node":
             nodeId = node.get_id()
@@ -47,7 +49,8 @@ def printSupplierData(graph):
     if graph == None:
         print("Non posso stampare i dati del supplier, grafo non inizializzato")
         return
-    
+
+    print("I dati del supplier sono: ")
     for node in graph:
         if node.get_type() == "supplier_node":
             nodeId = node.get_id()
@@ -87,7 +90,7 @@ def initialize(retailerNumber):
         return None
 
     #imposto la disponibilità totale del supplier
-    totalAvailability = 447
+    totalAvailability = 205
     
     g = Graph()
     g.add_dummy_supply_node(totalAvailability)
@@ -101,6 +104,7 @@ def initialize(retailerNumber):
                 g.add_supplier_node(day, totalAvailability)
             else:
                 sum = 0
+                # in questa maniera viene effettuata una spedizione ad ogni ordine di qualsiasi supplier
                 for j in range(1, retailerNumber+1):
                     for k in range(1, i):
                         sum = sum + demand_matrix[k-1][j-1]
@@ -172,29 +176,65 @@ def initialize(retailerNumber):
 if __name__ == '__main__':
 
     #inizializzo il grafo
-    graph = initialize(2)
-    #printSupplierData(graph)
+    graph = initialize(1)
+    printSupplierData(graph)
 
     #stampo il grafo creato
-    #printGraph(graph)
+    printGraph(graph)
 
     #invoco la funzione per la visualizzazione grafica del grafo con Debug Visualizer
-    #visualize(graph)
+    visualize(graph)
 
     #stampo i dati dei nodi retailer
-    #printRetailerData(graph)
+    printRetailersData(graph)
 
     #stampo i dati di tutti i nodi supplier
     printSupplierData(graph)
 
     #provo a cercare un arco specifico
-    '''edge = graph.get_edge("RetailerNode_1_MON", "RetailerNode_1_TUE")
+    edge = graph.get_edge("RetailerNode_1_MON", "RetailerNode_1_TUE")
     if edge != None:
         print(edge.get_id())
         print(edge.get_type())
         print(edge.get_quantity_holded())
     else:
         print("Arco non trovato")
-    '''
+
+    #cerco un nodo
+    node = graph.get_node("RetailerNode_1_MON")
+    if node != None:
+        print(node.get_id())
+    else:
+        print("Nodo non trovato")
+
+    #prelevo dal grafo la lista di tutti i nodi 
+    nodeList = graph.get_nodes_keys()
+    print(nodeList)
+
+    #ottengo il numero di nodi 
+    print(graph.get_num_nodes())
+
+    #creo un nodo e ne modifico il valore dopo la creazione
+    n = SupplierNode("PROVA", 100)
+    #stampo il warehouse_usage del nodo n
+    print("warehouse_usage prima: ", n.get_warehouse_usage())
+    #modifico il valore di warehouse_usage 150
+    n.set_warehouse_usage(150)
+    #stampo il warehouse_usage del nodo n modificato
+    print("warehouse_usage dopo: ", n.get_warehouse_usage())
+
+    #creo un arco e ne modifico il valore dopo la creazione
+    e = DispatchEdge("ID", 100, 150, 0, 20)
+    #stampo il costo dell'arco
+    print("Costo prima: ", e.get_cost())
+    #modifico il costo dell'arco
+    e.set_cost(200)
+    #stampo il nuovo costo dell'arco
+    print("Costo dopo: ", e.get_cost())
+
+
+
+
+    
 
 

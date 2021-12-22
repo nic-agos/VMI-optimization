@@ -5,7 +5,7 @@ capacity_list = [96, 128, 108, 144, 168, 132, 132, 140, 144, 136, 112, 152, 132,
 
 
 ##############################################################################
-# ogni riga corrisponde ad un giorno, l'elemento [i][j] è la domanda al giorno i del retailer j
+#  ogni riga corrisponde ad un giorno, l'elemento [i][j] è la domanda al giorno i del retailer j
 
 demand_matrix =  [[35, 58, 47, 68, 57, 56, 51, 69, 46, 55, 49, 61, 36, 31, 38, 62, 36,
        44, 40, 65, 38, 70, 37, 36, 52, 37, 46, 45, 35, 33, 57, 59, 47, 39,
